@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="com.polyvi.xface.extra.lib"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        version="1.0.0-dev">
+
+    <name>lib</name>
+    <author>PolyVi Inc.</author>
+    <description>xFace Lib extra</description>
+    <license>GPLv3</license>
+    <keywords>xface,lib</keywords>
+
+    <!-- android -->
+    <platform name="android">
+        <source-file src="android/src/XFaceLibLauncher.java" target-dir="src/com/polyvi/xface/lib"/>
+        <source-file src="android/doc/index.md" target-dir="xFaceLib/doc"/>
+        <source-file src="android/scripts/build_lib.xml" target-dir=""/>
+    </platform>
+</plugin>
