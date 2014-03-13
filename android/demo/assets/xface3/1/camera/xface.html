@@ -1,0 +1,310 @@
+<!--
+
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.
+
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,height=device-height,user-scalable=no,maximum-scale=1.0,initial-scale=1.0" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"> <!-- ISO-8859-1 -->
+    <title>xFace Mobile Spec</title>
+    <link rel="stylesheet" href="../master.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <script type="text/javascript" charset="utf-8" src="../base.js"></script>
+
+
+<script type="text/javascript" charset="utf-8">
+
+    var deviceReady = false;
+    //-------------------------------------------------------------------------
+    // Camera
+    //-------------------------------------------------------------------------
+
+    /**
+     * Capture picture
+     */
+
+     //使用设备上的摄像头拍照，并将照片保存到当前工作空间
+    function getPictureSaveToWorkSpace() {
+        navigator.camera.getPicture(
+            function(data) {
+                var img = document.getElementById('camera_image');
+                img.style.visibility = "visible";
+                img.style.display = "block";
+                img.src = data;
+                document.getElementById('camera_status').innerHTML = "Success";
+            },
+            function(e) {
+                console.log("Error getting picture: " + e);
+                document.getElementById('camera_status').innerHTML = "Error getting picture." + e;
+            },
+            { quality: 50,
+                destinationType:Camera.DestinationType.FILE_URI,
+                sourceType : Camera.PictureSourceType.CAMERA,
+                targetWidth:50,
+                targetHeight :100});
+    }
+    
+    function getPictureSaveToWorkspaceWithEidt(){
+     navigator.camera.getPicture(
+            function(data) {
+                var img = document.getElementById('camera_image');
+                img.style.visibility = "visible";
+                img.style.display = "block";
+                img.src = data;
+                document.getElementById('camera_status').innerHTML = "Success";
+            },
+            function(e) {
+                console.log("Error getting picture: " + e);
+                document.getElementById('camera_status').innerHTML = "Error getting picture." + e;
+            },
+            { quality           : 50, 
+              destinationType   : Camera.DestinationType.FILE_URI, 
+              sourceType        : Camera.PictureSourceType.CAMERA,
+              allowEdit         : true,
+              targetWidth       : 50,
+              targetHeight      : 100});
+             }
+    //使用设备上的摄像头拍照，并将照片保存到相册
+    function getPictureSaveToAlbum() {
+        navigator.camera.getPicture(
+            function(data) {
+                var img = document.getElementById('camera_image');
+                img.style.visibility = "visible";
+                img.style.display = "block";
+                img.src = data;
+                document.getElementById('camera_status').innerHTML = "Success";
+            },
+            function(e) {
+                console.log("Error getting picture: " + e);
+                document.getElementById('camera_status').innerHTML = "Error getting picture." + e;
+            },
+            { quality: 50,
+              destinationType:Camera.DestinationType.FILE_URI,
+              sourceType: Camera.PictureSourceType.CAMERA,
+                saveToPhotoAlbum: true,
+                targetWidth       : 50,
+                targetHeight      : 100
+            });
+    }
+    
+        //使用设备上的摄像头拍照，并将照片保存到相册
+    function getPictureSaveToAlbumWithEdit() {
+        navigator.camera.getPicture(
+            function(data) {
+                var img = document.getElementById('camera_image');
+                img.style.visibility = "visible";
+                img.style.display = "block";
+                img.src = data;
+                document.getElementById('camera_status').innerHTML = "Success";
+            },
+            function(e) {
+                console.log("Error getting picture: " + e);
+                document.getElementById('camera_status').innerHTML = "Error getting picture." + e;
+            },
+            { quality: 50, 
+            destinationType:Camera.DestinationType.FILE_URI, 
+            sourceType: Camera.PictureSourceType.CAMERA, 
+            allowEdit         : true,
+            targetWidth       : 100,
+            targetHeight      : 100,
+            saveToPhotoAlbum: true});
+    }
+
+    //使用设备上的摄像头拍照，并获得Base64编码字符串格式的可编辑图像
+    function getPictureEditWithoutSize() {
+        navigator.camera.getPicture(
+           function(data) {
+            var img = document.getElementById('camera_image');
+            img.style.visibility = "visible";
+            img.style.display = 'block';
+            img.src = "data:image/jpeg;base64," + data;
+            document.getElementById('camera_status').innerHTML = "Success";
+        },
+        function(e) {
+                console.log("Error getting picture: " + e);
+                document.getElementById('camera_status').innerHTML = "Error getting picture." + e;
+            },
+           { quality: 50, destinationType:
+                                   Camera.DestinationType.DATA_URL, sourceType: Camera.PictureSourceType.CAMERA,allowEdit: true,
+               targetWidth       : 50,
+               targetHeight      : 100});
+   }
+    
+    //使用设备上的摄像头拍照，并获得Base64编码字符串格式的可编辑的指定大小的图像
+    function getPictureEditInSize() {
+        navigator.camera.getPicture(
+           function(data) {
+            var img = document.getElementById('camera_image');
+            img.style.visibility = "visible";
+            img.style.display = 'block';
+            img.src = "data:image/jpeg;base64," + data;
+            document.getElementById('camera_status').innerHTML = "Success";
+        },
+        function(e) {
+                console.log("Error getting picture: " + e);
+                document.getElementById('camera_status').innerHTML = "Error getting picture." + e;
+            }, 
+           {        quality : 50,
+            destinationType : Camera.DestinationType.DATA_URL,
+                 sourceType : Camera.PictureSourceType.CAMERA,
+                  allowEdit : true,
+                targetWidth : 50,
+               targetHeight : 100,
+           saveToPhotoAlbum : true,
+                 cropToSize : true});
+   }
+
+    /**
+     * Select image from PHOTOLIBARY and show
+     */
+    function getImageFromPhontoLibary() {
+        navigator.camera.getPicture(
+            function(data) {
+                var img = document.getElementById('camera_image');
+                img.style.visibility = "visible";
+                img.style.display = "block";
+                img.src = data;
+                document.getElementById('camera_status').innerHTML = "Success";
+            },
+            function(e) {
+                console.log("Error getting picture: " + e);
+                document.getElementById('camera_status').innerHTML = "Error getting picture." + e;
+            },
+            { quality: 50, destinationType:
+            Camera.DestinationType.FILE_URI, sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                targetWidth       : 50,
+                targetHeight      : 100});
+    }
+
+    function getImageFromPhontoAlbum() {
+        navigator.camera.getPicture(
+            function(data) {
+                var img = document.getElementById('camera_image');
+                img.style.visibility = "visible";
+                img.style.display = "block";
+                img.src = data;
+                document.getElementById('camera_status').innerHTML = "Success";
+            },
+            function(e) {
+                console.log("Error getting picture: " + e);
+                document.getElementById('camera_status').innerHTML = "Error getting picture." + e;
+            },
+            { quality: 50, destinationType:
+            Camera.DestinationType.FILE_URI, sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,targetWidth       : 50,
+                targetHeight      : 100});
+    }
+    
+    function getImageFromPhontoAlbumWithEidt() {
+        navigator.camera.getPicture(
+            function(data) {
+                var img = document.getElementById('camera_image');
+                img.style.visibility = "visible";
+                img.style.display = "block";
+                img.src = data;
+                document.getElementById('camera_status').innerHTML = "Success";
+            },
+            function(e) {
+                console.log("Error getting picture: " + e);
+                document.getElementById('camera_status').innerHTML = "Error getting picture." + e;
+            },
+            { quality: 50, 
+            destinationType:Camera.DestinationType.FILE_URI, 
+            sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
+            allowEdit : true,
+            targetWidth : 50,
+            targetHeight : 75
+            });
+    }
+
+    function getImageFromPhontoAlbumWithEidtDATAURL() {
+        navigator.camera.getPicture(
+            function(data) {
+                var img = document.getElementById('camera_image');
+                img.style.visibility = "visible";
+                img.style.display = "block";
+                img.src = "data:image/jpeg;base64," + data;
+                document.getElementById('camera_status').innerHTML = "Success";
+            },
+            function(e) {
+                console.log("Error getting picture: " + e);
+                document.getElementById('camera_status').innerHTML = "Error getting picture." + e;
+            },
+            { quality: 50,
+            destinationType:Camera.DestinationType.DATA_URL,
+            sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
+            allowEdit : true,
+            targetWidth : 50,
+            targetHeight : 75
+            });
+    }
+
+    /**
+     * Function called when page has finished loading.
+     */
+    function init() {
+        document.addEventListener("deviceready", function() {
+                deviceReady = true;
+                console.log("Device="+device.platform+" "+device.version);
+            }, false);
+        window.setTimeout(function() {
+            if (!deviceReady) {
+                alert("Error: xFace did not initialize.  Demo will not run correctly.");
+            }
+        },1000);
+    }
+
+</script>
+
+  </head>
+
+  <body onload="init();" id="stage" class="theme">
+
+    <h1>Camera<span id="showInfo">?</span></h1>
+    <div id="descr">
+        测试说明: <br/>
+        1.使用设备上的摄像头拍照并保存到应用的工作空间，请到工作空间查看照片是否存在(iOS和非player不用查看); 备注:android2.2和2.3点击照相后都会默认保存到系统相册中,bug:2464。<br/>
+        2.使用设备上的摄像头拍照并保存到应用的工作空间，拍照后可编辑图像。<br/>
+		3.使用设备上的摄像头拍照并保存到相册，请到相册查看照片是否存在。<br/>
+        4.使用设备上的摄像头拍照并保存到相册，拍照后可编辑图像。<br/>
+		5.使用设备上的摄像头拍照，并获得Base64编码字符串格式的可编辑图像<br/>
+        6.使用设备上的摄像头拍照，并获得Base64编码字符串格式的可编辑的指定大小的图像;<br/>
+        7.从相片库选取一张照片，并显示。<br/>
+        8.从相册选取一张照片，并显示。<br/>
+		9.从相册选取一张照片，编辑图片并能显示编辑后的图片<br/>
+        10.从相册选取一张照片，编辑图片得到base64数据并能显示编辑后的图片<br/>
+    </div>
+    <div id="info">
+        <b>Status:</b> <span id="camera_status"></span><br>
+        <img style="visibility:hidden;display:none;" id="camera_image" src="" />
+    </div>
+    <h2>Action</h2>
+    <div class="btn large" onclick="getPictureSaveToWorkSpace();">Take Picture and save Picture to workspace</div>
+    <div class="btn large" onclick="getPictureSaveToWorkspaceWithEidt();">Take Picture ,cut Picture and save Picture to workspace</div>
+    <div class="btn large" onclick="getPictureSaveToAlbum();">Take Picture and save Picture to album</div>
+    <div class="btn large" onclick="getPictureSaveToAlbumWithEdit();">Take Picture,cut Picture and save Picture to album</div>
+    <div class="btn large" data-platform="ios" onclick="getPictureEditWithoutSize();">Get Editable Picture</div>
+    <div class="btn large" onclick="getPictureEditInSize();">Get Editable Picture in 50*100 size </div>
+    <div class="btn large" onclick="getImageFromPhontoLibary();">Select a Picture From Photo Libary and Show</div>
+    <div class="btn large" onclick="getImageFromPhontoAlbum();">Select a Picture From Photo Album and Show</div>
+    <div class="btn large" onclick="getImageFromPhontoAlbumWithEidt();">Select a Picture From Photo Album,cut Picture and Show</div>
+    <div class="btn large" onclick="getImageFromPhontoAlbumWithEidtDATAURL();">Select a Picture From Photo Album,cut Picture and Show with DATA_URL</div>
+    <h2> </h2><div class="backBtn" onclick="backHome();">Back</div>
+  </body>
+</html>
