@@ -51,15 +51,6 @@
 
     <!-- quick check on sdk.dir -->
     <fail message="sdk.dir is missing. Make sure to modify ../setting.properties and set the ANDROID_SDK_ROOT environment variable." unless="sdk.dir" />
-
-    <!-- init dir structure -->
-  <target name="init">
-        <mkdir dir="${basedir}/bin/xFaceLib"/>
-        <mkdir dir="${basedir}/bin/xFaceLib/libs"/>
-        <mkdir dir="${basedir}/bin/xFaceLib/res"/>
-        <mkdir dir="${basedir}/bin/xFaceLib/assets"/>
-    </target>
-
     <!-- compile jar -->
     <target name="jar" depends="-set-release-mode, -compile">
         <propertybyreplace name="project.app.package.path" input="${project.app.package}" replace="." with="/" />
@@ -74,31 +65,52 @@
     <target name="package">
         <!-- copy libproject lib -->
         <copy todir="${basedir}/bin/xFaceLib/libs/">
-          <fileset dir="${lib.framework}/libs">
+          <fileset dir="${lib.framework}/libs" id="framework_libs">
             <include name="*.jar" />
             <include name="armeabi/*.so" />
           </fileset>
         </copy>
 
         <copy todir="${basedir}/bin/xFaceLib/libs/">
-           <fileset dir="${basedir}/libs">
+           <fileset dir="${basedir}/libs" id="libs">
             <include name="*.jar" />
-                <include name="armeabi/*.so" />
+            <include name="armeabi/*.so" />
           </fileset>
         </copy>
 
        <!-- using this to tell user the permission -->
-       <copy todir="${basedir}/bin/xFaceLib"  file="${basedir}/AndroidManifest.xml"/>
+        <copy todir="${basedir}/bin/xFaceLib"  file="${basedir}/AndroidManifest.xml"/>
 
-       <copy todir="${basedir}/bin/xFaceLib/res">
-            <fileset dir="${basedir}/res">
-                    <exclude name="drawable*/icon.png"/>
+        <copy todir="${basedir}/bin/xFaceLib/res">
+            <fileset dir="${basedir}/res" id="res">
+                <exclude name="drawable*/icon.png"/>
             </fileset>
-       </copy>
-       <!-- copy assets -->
-       <copy todir="${basedir}/bin/xFaceLib/assets">
-            <fileset dir="${basedir}/assets"/>
-       </copy>
+        </copy>
+        <!-- copy assets -->
+        <copy todir="${basedir}/bin/xFaceLib/assets">
+            <fileset dir="${basedir}/assets" id="assets"/>
+        </copy>
+
+        <!-- copy demo and doc-->
+        <copy todir="${basedir}/bin/xFaceLib/">
+            <fileset dir="${basedir}/xFaceLib/"/>
+        </copy>
+
+        <!-- update demo-->
+        <copy todir="${basedir}/bin/xFaceLib/demo/libs">
+            <fileset refid="framework_libs"/>
+        </copy>
+        <copy todir="${basedir}/bin/xFaceLib/demo/libs">
+            <fileset refid="libs"/>
+        </copy>
+
+        <copy todir="${basedir}/bin/xFaceLib/demo/res">
+            <fileset refid="res"/>
+        </copy>
+
+        <copy todir="${basedir}/bin/xFaceLib/demo/assets">
+            <fileset refid="assets"/>
+        </copy>
        <zip destfile="${basedir}/bin/xFaceLib.zip" basedir="${basedir}/bin/xFaceLib"/>
   </target>
 
@@ -113,7 +125,7 @@
      <delete includeEmptyDirs="true" dir="${lib.framework}/bin"/>
   </target>
 
-  <target name="lib" depends="clean,init,jar,package">
+  <target name="lib" depends="clean,jar,package">
   </target>
 
     <!-- Import the actual build file.
