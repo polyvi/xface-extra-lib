@@ -54,7 +54,7 @@ console.log('Begin to build library "libxFaceLibAll.a", please wait.....');
 // 这里使用child_process#exec而不是child_process#spawn，是因为使用spawn不能正常构建出静态库，原因没有搞清楚
 child_process.exec('xcodebuild clean build -project '
     + xcodeProj + ' -target xFaceLibAll -configuration'
-    + ' Release -sdk iphoneos CONFIGURATION_BUILD_DIR="' + path.resolve('build', 'device') + '" > /dev/null',
+    + ' Release -sdk iphoneos CONFIGURATION_BUILD_DIR="' + path.resolve(platformProjPath, 'build', 'device') + '" > /dev/null',
     function(err, stdout, stderr) {
         stdout && console.log(stdout);
         stderr && console.error(stderr);
@@ -93,7 +93,7 @@ function prepareArchiveSource(pbx) {
     });
 
     console.log('Copy all static libraries...');
-    shell.cp('-f', path.join('build', 'device', 'libxFaceLibAll.a'), libFolder);
+    shell.cp('-f', path.join(platformProjPath, 'build', 'device', 'libxFaceLibAll.a'), libFolder);
     pluginLibs.forEach(function(lib) {
         shell.cp('-f', lib, libFolder);
     });
