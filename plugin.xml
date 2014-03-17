@@ -89,4 +89,9 @@
 		<source-file src="android/demo/AndroidManifest.xml" target-dir="xFaceLib/demo"/>
 		<source-file src="android/demo/project.properties" target-dir="xFaceLib/demo"/>
     </platform>
+    <platform name="ios">
+        <asset src="ios/scripts" target="../../xfaceSdk/scripts" />
+        <asset src="ios/demo" target="../../xfaceSdk/demo" />
+        <asset src="ios/doc" target="../../xfaceSdk/doc" />
+    </platform>
 </plugin>
