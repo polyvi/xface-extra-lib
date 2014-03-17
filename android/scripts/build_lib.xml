@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="xFaceLib" default="help">
+<project name="xfaceSdk" default="help">
 
     <property file="local.properties" />
     <!--
@@ -55,7 +55,7 @@
     <target name="jar" depends="-set-release-mode, -compile">
         <propertybyreplace name="project.app.package.path" input="${project.app.package}" replace="." with="/" />
         <property name="jar.out.path" value="${basedir}/bin" />
-        <jar destfile="${jar.out.path}/xFaceLib/libs/xface.jar">
+        <jar destfile="${jar.out.path}/xfaceSdk/libs/xface.jar">
             <fileset dir="${out.classes.absolute.dir}" excludes="${project.app.package.path}/R.class ${project.app.package.path}/R$*.class ${project.app.package.path}/BuildConfig.class" includes="**/*.class" />
             <zipfileset includes="**/*.class" src="${lib.framework}/bin/classes.jar"/>
         </jar>
@@ -64,14 +64,14 @@
     <!-- package libs -->
     <target name="package">
         <!-- copy libproject lib -->
-        <copy todir="${basedir}/bin/xFaceLib/libs/">
+        <copy todir="${basedir}/bin/xfaceSdk/libs/">
           <fileset dir="${lib.framework}/libs" id="framework_libs">
             <include name="*.jar" />
             <include name="armeabi/*.so" />
           </fileset>
         </copy>
 
-        <copy todir="${basedir}/bin/xFaceLib/libs/">
+        <copy todir="${basedir}/bin/xfaceSdk/libs/">
            <fileset dir="${basedir}/libs" id="libs">
             <include name="*.jar" />
             <include name="armeabi/*.so" />
@@ -79,39 +79,39 @@
         </copy>
 
        <!-- using this to tell user the permission -->
-        <copy todir="${basedir}/bin/xFaceLib"  file="${basedir}/AndroidManifest.xml"/>
+        <copy todir="${basedir}/bin/xfaceSdk"  file="${basedir}/AndroidManifest.xml"/>
 
-        <copy todir="${basedir}/bin/xFaceLib/res">
+        <copy todir="${basedir}/bin/xfaceSdk/res">
             <fileset dir="${basedir}/res" id="res">
                 <exclude name="drawable*/icon.png"/>
             </fileset>
         </copy>
         <!-- copy assets -->
-        <copy todir="${basedir}/bin/xFaceLib/assets">
+        <copy todir="${basedir}/bin/xfaceSdk/assets">
             <fileset dir="${basedir}/assets" id="assets"/>
         </copy>
 
         <!-- copy demo and doc-->
-        <copy todir="${basedir}/bin/xFaceLib/">
-            <fileset dir="${basedir}/xFaceLib/"/>
+        <copy todir="${basedir}/bin/xfaceSdk/">
+            <fileset dir="${basedir}/xfaceSdk/"/>
         </copy>
 
         <!-- update demo-->
-        <copy todir="${basedir}/bin/xFaceLib/demo/libs">
+        <copy todir="${basedir}/bin/xfaceSdk/demo/libs">
             <fileset refid="framework_libs"/>
         </copy>
-        <copy todir="${basedir}/bin/xFaceLib/demo/libs">
+        <copy todir="${basedir}/bin/xfaceSdk/demo/libs">
             <fileset refid="libs"/>
         </copy>
 
-        <copy todir="${basedir}/bin/xFaceLib/demo/res">
+        <copy todir="${basedir}/bin/xfaceSdk/demo/res">
             <fileset refid="res"/>
         </copy>
 
-        <copy todir="${basedir}/bin/xFaceLib/demo/assets">
+        <copy todir="${basedir}/bin/xfaceSdk/demo/assets">
             <fileset refid="assets"/>
         </copy>
-       <zip destfile="${basedir}/bin/xFaceLib.zip" basedir="${basedir}/bin/xFaceLib"/>
+       <zip destfile="${basedir}/bin/xfaceSdk.zip" basedir="${basedir}/bin/xfaceSdk"/>
   </target>
 
     <property name="lib.out.path" value="${basedir}/bin" />
