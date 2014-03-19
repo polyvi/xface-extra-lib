@@ -139,21 +139,22 @@ function copyHeaderFiles(pbx, destLibFolder) {
     var xfaceLibProjPath = findFrameworkProject(pbx),
         destHeaderPath = path.join(destLibFolder, 'inc'),
         xfaceHeaderPath = path.join(xfaceLibProjPath, '..', 'xFaceLib', 'Classes', 'runtime'),
-        cordovaHeaderPath = path.join(xfaceLibProjPath, '..', '..', 'cordova-ios', 'CordovaLib', 'Classes');
+        cordovaHeaderPath = path.join(xfaceLibProjPath, '..', '..', 'cordova-ios', 'CordovaLib', 'Classes'),
+        destCordovaHeader = path.join(destHeaderPath, 'Cordova');
     shell.mkdir(destHeaderPath);
     shell.cp('-f', path.join(xfaceHeaderPath, 'XRootViewController.h'), destHeaderPath);
     shell.cp('-f', path.join(xfaceHeaderPath, 'XViewController.h'), destHeaderPath);
-    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVAvailability.h'), destHeaderPath);
-    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVInvokedUrlCommand.h'), destHeaderPath);
-    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVCommandDelegate.h'), destHeaderPath);
-    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVCommandQueue.h'), destHeaderPath);
-    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVWhitelist.h'), destHeaderPath);
-    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVScreenOrientationDelegate.h'), destHeaderPath);
-    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVPlugin.h'), destHeaderPath);
-    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVPluginResult.h'), destHeaderPath);
-    shell.cp('-f', path.join(cordovaHeaderPath, 'NSMutableArray+QueueAdditions.h'), destHeaderPath);
-    shell.mkdir(path.join(destHeaderPath, 'Cordova'));
-    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVViewController.h'), path.join(destHeaderPath, 'Cordova'));
+    shell.mkdir(destCordovaHeader);
+    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVAvailability.h'), destCordovaHeader);
+    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVInvokedUrlCommand.h'), destCordovaHeader);
+    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVCommandDelegate.h'), destCordovaHeader);
+    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVCommandQueue.h'), destCordovaHeader);
+    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVWhitelist.h'), destCordovaHeader);
+    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVScreenOrientationDelegate.h'), destCordovaHeader);
+    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVPlugin.h'), destCordovaHeader);
+    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVPluginResult.h'), destCordovaHeader);
+    shell.cp('-f', path.join(cordovaHeaderPath, 'NSMutableArray+QueueAdditions.h'), destCordovaHeader);
+    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVViewController.h'), destCordovaHeader);
 }
 
 // modify pbx native target, then return target info
