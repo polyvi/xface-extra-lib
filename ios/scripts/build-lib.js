@@ -20,6 +20,7 @@ var pbxFile = path.join(xcodeProj, 'project.pbxproj'),
     projectMainDir = xcodeProj.split(path.extname(xcodeProj))[0],
     backupPbx = pbxFile + '_backup';
 var preparationFolder = path.join(platformProjPath, 'build', 'xFaceSDK');
+var readmePath = path.join(preparationFolder, 'ReadMe.txt');
 
 if(fs.existsSync(backupPbx)) {
     shell.cp('-f', backupPbx, pbxFile);
@@ -109,15 +110,7 @@ function prepareArchiveSource(pbx) {
     });
 
     console.log('Copy header files....');
-    var xfaceLibProjPath = findFrameworkProject(pbx),
-        destHeaderPath = path.join(libFolder, 'inc'),
-        xfaceHeaderPath = path.join(xfaceLibProjPath, '..', 'xFaceLib', 'Classes', 'runtime'),
-        cordovaHeaderPath = path.join(xfaceLibProjPath, '..', '..', 'cordova-ios', 'CordovaLib', 'Classes');
-    shell.mkdir(destHeaderPath);
-    shell.cp('-f', path.join(xfaceHeaderPath, 'XRootViewController.h'), destHeaderPath);
-    shell.cp('-f', path.join(xfaceHeaderPath, 'XViewController.h'), destHeaderPath);
-    shell.mkdir(path.join(destHeaderPath, 'Cordova'));
-    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVViewController.h'), path.join(destHeaderPath, 'Cordova'));
+    copyHeaderFiles(pbx, libFolder);
 
     console.log('Copy resource files....');
     shell.cp('-rf', path.join(projectMainDir, 'Resources'), libFolder);
@@ -126,6 +119,41 @@ function prepareArchiveSource(pbx) {
     itemsToCopy.forEach(function(f) {
         shell.cp('-rf', path.join(srcDir, f), preparationFolder);
     });
+
+    // copy config.xml
+    shell.cp('-f', path.join(projectMainDir, 'config.xml'), libFolder);
+
+    // generate merged xface.js
+    shell.exec('xmen build --merge-js -o "' + path.join(libFolder, 'xface.js') + '"');
+
+    // write framework requirement to readme
+    var frameworks = collectFrameworks(pbx),
+        content = 'Framework Requirement: \n';
+    frameworks.forEach(function(framework) {
+        content += ('    ' + framework + '\n');
+    });
+    fs.appendFileSync(readmePath, content, 'utf-8');
+}
+
+function copyHeaderFiles(pbx, destLibFolder) {
+    var xfaceLibProjPath = findFrameworkProject(pbx),
+        destHeaderPath = path.join(destLibFolder, 'inc'),
+        xfaceHeaderPath = path.join(xfaceLibProjPath, '..', 'xFaceLib', 'Classes', 'runtime'),
+        cordovaHeaderPath = path.join(xfaceLibProjPath, '..', '..', 'cordova-ios', 'CordovaLib', 'Classes');
+    shell.mkdir(destHeaderPath);
+    shell.cp('-f', path.join(xfaceHeaderPath, 'XRootViewController.h'), destHeaderPath);
+    shell.cp('-f', path.join(xfaceHeaderPath, 'XViewController.h'), destHeaderPath);
+    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVAvailability.h'), destHeaderPath);
+    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVInvokedUrlCommand.h'), destHeaderPath);
+    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVCommandDelegate.h'), destHeaderPath);
+    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVCommandQueue.h'), destHeaderPath);
+    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVWhitelist.h'), destHeaderPath);
+    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVScreenOrientationDelegate.h'), destHeaderPath);
+    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVPlugin.h'), destHeaderPath);
+    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVPluginResult.h'), destHeaderPath);
+    shell.cp('-f', path.join(cordovaHeaderPath, 'NSMutableArray+QueueAdditions.h'), destHeaderPath);
+    shell.mkdir(path.join(destHeaderPath, 'Cordova'));
+    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVViewController.h'), path.join(destHeaderPath, 'Cordova'));
 }
 
 // modify pbx native target, then return target info
@@ -239,4 +267,17 @@ function removeFromGroup(pbx, file, group) {
             break;
         }
     }
+}
+
+// collect all frameworks used by project, excluding static library
+function collectFrameworks(pbx) {
+    var children = pbx.pbxGroupByName('Frameworks').children;
+    var frameworks = [];
+    children.forEach(function(child) {
+        var name = child.comment;
+        if(path.extname(name) != '.a') {
+            frameworks.push(name);
+        }
+    });
+    return frameworks;
 }
