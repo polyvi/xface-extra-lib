@@ -136,25 +136,13 @@ function prepareArchiveSource(pbx) {
 }
 
 function copyHeaderFiles(pbx, destLibFolder) {
-    var xfaceLibProjPath = findFrameworkProject(pbx),
-        destHeaderPath = path.join(destLibFolder, 'inc'),
-        xfaceHeaderPath = path.join(xfaceLibProjPath, '..', 'xFaceLib', 'Classes', 'runtime'),
-        cordovaHeaderPath = path.join(xfaceLibProjPath, '..', '..', 'cordova-ios', 'CordovaLib', 'Classes'),
-        destCordovaHeader = path.join(destHeaderPath, 'Cordova');
+    var srcHeaderPath = path.join(platformProjPath, 'build', buildCategoryName, 'include'),
+        destHeaderPath = path.join(destLibFolder, 'inc');
+    if(!fs.existsSync(srcHeaderPath)) {
+        throw new Error('Can\'t find header folder "' + srcHeaderPath + '".');
+    }
     shell.mkdir(destHeaderPath);
-    shell.cp('-f', path.join(xfaceHeaderPath, 'XRootViewController.h'), destHeaderPath);
-    shell.cp('-f', path.join(xfaceHeaderPath, 'XViewController.h'), destHeaderPath);
-    shell.mkdir(destCordovaHeader);
-    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVAvailability.h'), destCordovaHeader);
-    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVInvokedUrlCommand.h'), destCordovaHeader);
-    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVCommandDelegate.h'), destCordovaHeader);
-    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVCommandQueue.h'), destCordovaHeader);
-    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVWhitelist.h'), destCordovaHeader);
-    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVScreenOrientationDelegate.h'), destCordovaHeader);
-    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVPlugin.h'), destCordovaHeader);
-    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVPluginResult.h'), destCordovaHeader);
-    shell.cp('-f', path.join(cordovaHeaderPath, 'NSMutableArray+QueueAdditions.h'), destCordovaHeader);
-    shell.cp('-f', path.join(cordovaHeaderPath, 'CDVViewController.h'), destCordovaHeader);
+    shell.cp('-rf', path.join(srcHeaderPath, '*'), destHeaderPath);
 }
 
 // modify pbx native target, then return target info
@@ -240,16 +228,6 @@ function findPluginLibrary(dir) {
         }
     });
     return libs;
-}
-
-// return xcodeproj path of xFaceLib project
-function findFrameworkProject(pbx) {
-    var section = pbx.pbxFileReferenceSection();
-    for(key in section) {
-        if(/_comment$/.test(key) && section[key] == 'xFaceLib.xcodeproj') {
-            return path.join(platformProjPath, section[key.split('_comment')[0]]['path'].split('"').join(''));
-        }
-    }
 }
 
 // remove AppDelegate.m and main.m form project
