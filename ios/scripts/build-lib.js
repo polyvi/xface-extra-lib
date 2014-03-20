@@ -124,7 +124,7 @@ function prepareArchiveSource(pbx) {
     shell.cp('-f', path.join(projectMainDir, 'config.xml'), libFolder);
 
     // generate merged xface.js
-    shell.exec('xmen build --merge-js -o "' + path.join(libFolder, 'xface.js') + '"');
+    shell.exec('xmen build ios --merge-js -o "' + path.join(libFolder, 'xface.js') + '"');
 
     // write framework requirement to readme
     var frameworks = collectFrameworks(pbx),
