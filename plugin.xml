@@ -22,5 +22,6 @@
         <asset src="ios/scripts" target="../../xfaceSdk/scripts" />
         <asset src="ios/demo" target="../../xfaceSdk/demo" />
         <asset src="ios/doc" target="../../xfaceSdk/doc" />
+        <asset src="ios/readme.txt" target="../../xfaceSdk/readme.txt" />
     </platform>
 </plugin>

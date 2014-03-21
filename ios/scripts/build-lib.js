@@ -20,7 +20,7 @@ var pbxFile = path.join(xcodeProj, 'project.pbxproj'),
     projectMainDir = xcodeProj.split(path.extname(xcodeProj))[0],
     backupPbx = pbxFile + '_backup';
 var preparationFolder = path.join(platformProjPath, 'build', 'xFaceSDK');
-var readmePath = path.join(preparationFolder, 'ReadMe.txt');
+var readmePath = path.join(preparationFolder, 'readme.txt');
 
 if(fs.existsSync(backupPbx)) {
     shell.cp('-f', backupPbx, pbxFile);
@@ -128,7 +128,7 @@ function prepareArchiveSource(pbx) {
 
     // write framework requirement to readme
     var frameworks = collectFrameworks(pbx),
-        content = 'Framework Requirement: \n';
+        content = '\nFramework Requirement: \n';
     frameworks.forEach(function(framework) {
         content += ('    ' + framework + '\n');
     });
