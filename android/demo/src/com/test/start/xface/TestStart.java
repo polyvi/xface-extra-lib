@@ -1,5 +1,6 @@
 package com.test.start.xface;
 
+import com.polyvi.xface.lib.XFaceLibActivity;
 import com.polyvi.xface.lib.XFaceLibLauncher;
 
 import android.app.Activity;
@@ -13,9 +14,6 @@ public class TestStart extends Activity {
 
 	private Button button;
 
-	private static final String RECEAIVER_ACTION = "com.android.broadcastAction.EXTERNALMESSAGE";
-	private static final String RECEIVE_EXTERNAL_MESSAGE = "external_message";
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -24,11 +22,18 @@ public class TestStart extends Activity {
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//传递给xface的参数
-				String parameter = "123456";
+				// 传递给xface的参数
+				String parameter = "this is some string type params  come from native portal";
 				// 启动xface的接口
 				XFaceLibLauncher.startXface(TestStart.this, parameter);
 			}
 		});
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == XFaceLibActivity.RESULT_OK) {
+			// TODO:监听xface退出后需要执行的操作
+		}
 	}
 }

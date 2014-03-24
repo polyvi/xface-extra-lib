@@ -14,6 +14,6 @@ public class XFaceLibLauncher {
 			params = params.replaceAll("\"", "\\\\\"");
 			intent.putExtra(XConstant.TAG_APP_START_PARAMS, params);
 		}
-		activity.startActivity(intent);
+		activity.startActivityForResult(intent, 0);
 	}
 }

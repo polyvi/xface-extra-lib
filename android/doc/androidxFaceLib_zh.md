@@ -62,3 +62,12 @@ xFaceLib包含一个xface.jar文件和一些.so的动态链接库文件，下图
     `XFaceLibLauncher.startXface(activity, params);`
 
 上述代码中params代表需要向xface传递的参数,如果不传参数则传null.这些做完之后就可以通过启动demo来启动xface了。
+**注意**
+ 如果需要在第三方程序中监听xface退出的回调可以添加以下代码:
+    `@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == XFaceLibActivity.RESULT_OK) {
+			// TODO:监听xface退出后需要执行的操作
+		}
+	}`
+在if中就可以添加xface退出后需要做的事情。
