@@ -23,7 +23,7 @@ public class TestStart extends Activity {
 			@Override
 			public void onClick(View v) {
 				// 传递给xface的参数
-				String parameter = "this is some string type params  come from native portal";
+				String parameter = "{\"action\" :\"home\",\"userInfo\": {\"id\":\"\",\"m_id\":\"\",\"isLogin\" :false}}";
 				// 启动xface的接口
 				XFaceLibLauncher.startXface(TestStart.this, parameter);
 			}
