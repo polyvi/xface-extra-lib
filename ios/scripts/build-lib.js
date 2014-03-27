@@ -136,13 +136,18 @@ function prepareArchiveSource(pbx) {
 }
 
 function copyHeaderFiles(pbx, destLibFolder) {
-    var srcHeaderPath = path.join(platformProjPath, 'build', buildCategoryName, 'include'),
+    var xfaceSrcHeaderPath = path.join(platformProjPath, 'build', buildCategoryName, 'include', 'xFace'),
+        cordovaSrcHeaderPath = path.join(platformProjPath, 'build', buildCategoryName, 'include', 'Cordova');
         destHeaderPath = path.join(destLibFolder, 'inc');
-    if(!fs.existsSync(srcHeaderPath)) {
-        throw new Error('Can\'t find header folder "' + srcHeaderPath + '".');
+    if(!fs.existsSync(xfaceSrcHeaderPath)) {
+        throw new Error('Can\'t find header folder "' + xfaceSrcHeaderPath + '".');
+    }
+    if(!fs.existsSync(cordovaSrcHeaderPath)) {
+        throw new Error('Can\'t find header folder "' + cordovaSrcHeaderPath + '".');
     }
     shell.mkdir(destHeaderPath);
-    shell.cp('-rf', path.join(srcHeaderPath, '*'), destHeaderPath);
+    shell.cp('-rf', path.join(xfaceSrcHeaderPath, '*'), destHeaderPath);
+    shell.cp('-rf', path.join(cordovaSrcHeaderPath, '*'), path.join(destHeaderPath, 'Cordova'));
 }
 
 // modify pbx native target, then return target info
