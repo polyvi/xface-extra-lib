@@ -96,6 +96,9 @@
             <fileset dir="${basedir}/xfaceSdk/"/>
         </copy>
 
+        <!-- delete the demo assets files-->
+        <delete includeEmptyDirs="true" dir="${basedir}/bin/xfaceSdk/demo/assets/"/>
+
         <!-- update demo-->
         <copy todir="${basedir}/bin/xfaceSdk/demo/libs">
             <fileset refid="framework_libs"/>
