@@ -20,6 +20,11 @@
 		<asset src="android/demo" target="../../xfaceSdk/demo"/>
     </platform>
     <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <preference name="LibRunningMode" value="optimized" />
+            <preference name="CustomLaunchImageFile" value="" />
+        </config-file>
+
         <asset src="ios/scripts" target="../../xfaceSdk/scripts" />
         <asset src="ios/demo" target="../../xfaceSdk/demo" />
         <asset src="ios/doc" target="../../xfaceSdk/doc" />
