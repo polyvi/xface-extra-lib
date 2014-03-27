@@ -57,11 +57,21 @@ xFaceLib包含一个xface.jar文件和一些.so的动态链接库文件，下图
 构建的lib包里面有一个manifest文件，所需要添加的权限请参照那个文件.
 
 ####2.添加xFace的启动代码
-在需要启动xface的地方添加如下代码:
+第三方程序启动xface可以分为两种，一种是无优化的启动和优化启动，优化启动优化了xface启动的速度，这样启动xface的速度更快。
+#####(1)无优化启动
+在第三方程序中，启动xface添加如下代码:
     `String params = "params";`
-    `XFaceLibLauncher.startXface(activity, params);`
+    `XFaceLibLauncher.startXface(activity, params,false);`
+上述代码中params代表需要向xface传递的参数,如果不传参数则传null。
 
-上述代码中params代表需要向xface传递的参数,如果不传参数则传null.这些做完之后就可以通过启动demo来启动xface了。
+#####(2)优化启动
+在第三方程序中,启动xface添加如下代码:
+    `String params = "params";`
+    `XFaceLibLauncher.startXface(activity, params,true);`
+如果打开优化还需要在退出第三方程序的时候，在关闭第三方程序之前来关闭xface:
+    `XFaceLibLauncher.endXface();`
+这样就是一个完整的优化启动过程。在一般的程序中建议使用优化启动来启动xface，这样对于效率有很大的提高.
+
 **注意**
  如果需要在第三方程序中监听xface退出的回调可以添加以下代码:
     `@Override
