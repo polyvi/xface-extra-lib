@@ -36,3 +36,20 @@
  *  Add xfaceLib doc and demo
  *  Initial commit by xsrc
  *  since xFaceLib contains doc, demo and script, create lib plugin for that , xmen will add it to engine
+
+
+## 1.0.1 (Mon Mar 31 2014)
+
+
+ *  delete the demo assets files
+ *  optimization the xfaceLib lanucher speed
+ *  [iOS] Adjust the structure of header directory to fix "Cordova/CDVViewController.h" not found error.
+ *  [iOS] Add default preferences for extra-lib
+ *  Add Xface to SingleTask start
+ *  Modify the parameters passed to xface
+ *  Add xface return the activity results to the Demo
+ *  initial doc
+ *  added reamde for ios
+ *  added demo project, including all core plugins, helloxface app
+ *  fixed missing platform option for merge-js
+ *  Incremented plugin version on dev branch to 1.0.1-dev
