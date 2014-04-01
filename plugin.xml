@@ -15,6 +15,7 @@
     <platform name="android">
         <source-file src="android/src/XFaceLibLauncher.java" target-dir="src/com/polyvi/xface/lib"/>
 		<source-file src="android/src/XFaceLibActivity.java" target-dir="src/com/polyvi/xface/lib"/>
+		<source-file src="android/src/XFaceLibActivityManager.java" target-dir="src/com/polyvi/xface/lib"/>
         <source-file src="android/scripts/build_lib.xml" target-dir=""/>
 		<asset src="android/doc" target="../../xfaceSdk/doc"/>
 		<asset src="android/demo" target="../../xfaceSdk/demo"/>
