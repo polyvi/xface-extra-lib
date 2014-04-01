@@ -113,7 +113,7 @@ function prepareArchiveSource(pbx) {
     copyHeaderFiles(pbx, libFolder);
 
     console.log('Copy resource files....');
-    shell.cp('-rf', path.join(projectMainDir, 'Resources'), libFolder);
+    shell.cp('-rf', path.join(projectMainDir, 'Resources', 'assets'), path.join(libFolder, 'Resources'));
     console.log('Copy demo and other files....');
 
     console.log('Copy application....');
