@@ -8,10 +8,9 @@ import com.polyvi.xface.util.XConstant;
 public class XFaceLibLauncher {
 	public static final String TARGET_CLASS = "TargetClass";
 
-	public static final void startXface(Activity activity, String params,
-			boolean isOptimization) {
-		Intent intent = new Intent();
-		intent.setAction("android.intent.action.XFACELIBLAUNCHER");
+	public static final void startXface(Activity activity, Class className,
+			String params, boolean isOptimization) {
+		Intent intent = new Intent(activity, className);
 		if (null != params) {
 			params = params.replaceAll("'", "\\\\'");
 			params = params.replaceAll("\"", "\\\\\"");
@@ -25,8 +24,6 @@ public class XFaceLibLauncher {
 	}
 
 	public static final void endXface() {
-		if (null != XFaceLibActivity.getInstance()) {
-			XFaceLibActivity.getInstance().finish();
-		}
+		XFaceLibActivityManager.getInstance().popAllActivity();
 	}
 }

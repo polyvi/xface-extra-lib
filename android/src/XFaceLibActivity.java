@@ -1,6 +1,5 @@
 package com.polyvi.xface.lib;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -8,22 +7,19 @@ import com.polyvi.xface.XFaceMainActivity;
 
 public class XFaceLibActivity extends XFaceMainActivity {
 	public static final int RESULT_OK = 100000;
-	private static Activity activity;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		activity = this;
-	}
-
-	public static Activity getInstance() {
-		return activity;
+		if (Intent.FLAG_ACTIVITY_REORDER_TO_FRONT == getIntent().getFlags()) {
+			XFaceLibActivityManager.getInstance().pushActivity(this);
+		}
 	}
 
 	@Override
-	public void finish() {
+	public void onStop() {
 		setResult(RESULT_OK);
-		super.finish();
+		super.onStop();
 	}
 
 	@Override
