@@ -115,6 +115,10 @@ function prepareArchiveSource(pbx) {
     console.log('Copy resource files....');
     shell.cp('-rf', path.join(projectMainDir, 'Resources'), libFolder);
     console.log('Copy demo and other files....');
+
+    console.log('Copy application....');
+    shell.cp('-rf', path.resolve(projectMainDir, '../xface3'), libFolder);
+
     // copy all files under xfaceSdk folder exclude 'scripts'
     itemsToCopy.forEach(function(f) {
         shell.cp('-rf', path.join(srcDir, f), preparationFolder);
