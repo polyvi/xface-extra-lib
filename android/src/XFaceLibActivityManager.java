@@ -33,6 +33,9 @@ public class XFaceLibActivityManager {
 	}
 
 	public void popAllActivity() {
+		if (null == activityStack) {
+			return;
+		}
 		for (int i = 0; i < activityStack.size(); i++) {
 			popActivity(activityStack.get(i));
 		}
