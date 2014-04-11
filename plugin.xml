@@ -17,8 +17,8 @@
 		<source-file src="android/src/XFaceLibActivity.java" target-dir="src/com/polyvi/xface/lib"/>
 		<source-file src="android/src/XFaceLibActivityManager.java" target-dir="src/com/polyvi/xface/lib"/>
         <source-file src="android/scripts/build_lib.xml" target-dir=""/>
-		<asset src="android/doc" target="../../xfaceSdk/doc"/>
-		<asset src="android/demo" target="../../xfaceSdk/demo"/>
+		<asset src="android/doc" target="../xfaceSdk/doc"/>
+		<asset src="android/demo" target="../xfaceSdk/demo"/>
     </platform>
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
@@ -26,9 +26,9 @@
             <preference name="CustomLaunchImageFile" value="" />
         </config-file>
 
-        <asset src="ios/scripts" target="../../xfaceSdk/scripts" />
-        <asset src="ios/demo" target="../../xfaceSdk/demo" />
-        <asset src="ios/doc" target="../../xfaceSdk/doc" />
-        <asset src="ios/readme.txt" target="../../xfaceSdk/readme.txt" />
+        <asset src="ios/scripts" target="../xfaceSdk/scripts" />
+        <asset src="ios/demo" target="../xfaceSdk/demo" />
+        <asset src="ios/doc" target="../xfaceSdk/doc" />
+        <asset src="ios/readme.txt" target="../xfaceSdk/readme.txt" />
     </platform>
 </plugin>
