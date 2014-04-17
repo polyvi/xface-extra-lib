@@ -64,3 +64,23 @@ xFace resource包括xFace启动时使用的launchImages、配置文件（config.
 ### 调用xFace
 
 请参考ViewConroller.m 中的代码
+
+### Preferences
+
+请在config.xml中添加以下配置项
+
+-  __LibRunningMode__ (string, 默认值为“normal”). 运行模式.
+
+    ```
+	normal    : xFace实例会被创建多次，即每次启动时创建xFace实例，退出时销毁xFace实例
+	optimized : xFace实例只在加载XRootViewController时创建一次，通过postNotification启动xFace默认应用.使用此方式，xFace启动速度更快.
+	
+	注意：只有添加xface-extra-lib插件时才需配置LibRunningMode，非库模式下无需配置此项，即xFace按照normal的方式启动
+	```
+
+        <preference name="LibRunningMode" value="normal" />
+            
+- __CustomLaunchImageFile__ (string, 值为空时使用第三方LaunchImage). 启动xFace Lib时使用的Launch Image名称.
+
+        <preference name="CustomLaunchImageFile" value="" />
+
