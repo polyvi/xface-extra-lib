@@ -81,11 +81,16 @@
        <!-- using this to tell user the permission -->
         <copy todir="${basedir}/bin/xfaceSdk"  file="${basedir}/AndroidManifest.xml"/>
 
+        <!-- copy res-->
         <copy todir="${basedir}/bin/xfaceSdk/res">
             <fileset dir="${basedir}/res" id="res">
                 <exclude name="drawable*/icon.png"/>
             </fileset>
+             <fileset dir="${lib.framework}/res" id="res">
+                <exclude name="drawable*/icon.png"/>
+            </fileset>
         </copy>
+
         <!-- copy assets -->
         <copy todir="${basedir}/bin/xfaceSdk/assets">
             <fileset dir="${basedir}/assets" id="assets"/>
@@ -96,24 +101,23 @@
             <fileset dir="${basedir}/xfaceSdk/"/>
         </copy>
 
-        <!-- delete the demo assets files-->
+        <!-- update  demo assets files-->
         <delete includeEmptyDirs="true" dir="${basedir}/bin/xfaceSdk/demo/assets/"/>
-
-        <!-- update demo-->
-        <copy todir="${basedir}/bin/xfaceSdk/demo/libs">
-            <fileset refid="framework_libs"/>
-        </copy>
-        <copy todir="${basedir}/bin/xfaceSdk/demo/libs">
-            <fileset refid="libs"/>
-        </copy>
-
-        <copy todir="${basedir}/bin/xfaceSdk/demo/res">
-            <fileset refid="res"/>
-        </copy>
-
         <copy todir="${basedir}/bin/xfaceSdk/demo/assets">
-            <fileset refid="assets"/>
+            <fileset dir="${basedir}/bin/xfaceSdk/assets"/>
         </copy>
+
+        <!-- update demo libs-->
+        <delete includeEmptyDirs="true" dir="${basedir}/bin/xfaceSdk/demo/libs/"/>
+        <copy todir="${basedir}/bin/xfaceSdk/demo/libs">
+            <fileset dir="${basedir}/bin/xfaceSdk/libs"/>
+        </copy>
+       
+        <!-- update res -->
+        <copy todir="${basedir}/bin/xfaceSdk/demo/res">
+            <fileset dir="${basedir}/bin/xfaceSdk/res"/>
+        </copy>
+
        <zip destfile="${basedir}/bin/xfaceSdk.zip" basedir="${basedir}/bin/xfaceSdk"/>
   </target>
 

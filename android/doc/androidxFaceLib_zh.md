@@ -26,7 +26,7 @@ xFaceLib包含一个xface.jar文件和一些.so的动态链接库文件，下图
  如果你的android SDK版本是最新更新的,直接将xface.jar放入libs目录下就会自动添加xface.jar,如果是以前比较老的SDK版本需要通过右键工程->Build Path->Configure Bild Path...->Libraries->Add JARs...选择libs下的xface.jar添加到工程.
 
 ####2.添加资源到工程
-将xface提供的资源文件添加到工程,首先是res目录文件，在res目录下面新建raw目录,push.properties等文件拷贝到raw目录下面,在res下面的xml目录下面将config.xml和xface_string.xml等工程所需的xml文件拷贝到这个目录下面,在res的values目录下面将style.xml拷贝到这个目录下面，然后将xface启动显示的splash放入到drawable目录下面。
+将xface提供的资源文件添加到工程res目录下面，具体请参数demo工程。
 
 **注意**
  添加xface启动splash图片名字必须为splash.png.
@@ -37,7 +37,7 @@ xFaceLib包含一个xface.jar文件和一些.so的动态链接库文件，下图
 ![](image/add_Resource.png)
 
 ####3.添加应用到工程
- 在工程根目录的assets目录下面新建xface3目录，然后在xface3的目录下面新建应用的存放目录，然后将所有的应用靠背到这个新建目录下面，然后修改配置文件，打开res/xml/config.xml文件，将其中app_package标签的name属性的名字改为应用存放新建目录的名字，id属性可以随意改成想要的名字。添加应用之后如下图所示:
+ 参照demo工程，将asset目录拷贝到工程的asset目录即可。添加应用之后如下图所示:
 【图 add Test】
 ![](image/add_Test.png)
 
@@ -47,37 +47,39 @@ xFaceLib包含一个xface.jar文件和一些.so的动态链接库文件，下图
 修改demo的源代码,以启动xFace
 
 ####1.修改demo工程的AndroidMainfest文件的代码
-由于xface程序中间包含Activity,Service等一些android的组件,还有运行程序所需要的权限要启动这些首先要在demo工程的manifest文件中进行申明,下图展示了demo工程mainfest文件添加的内容.
+由于xface程序中间包含Activity,Service等一些android的组件,还有运行程序所需要的权限，首先要在demo工程的manifest文件中进行申明,下图展示了demo工程mainfest文件添加的内容.
 
 【图 demo AndroidMainfest】
 ![](image/manifest.png)
 
 ![](image/permission.png)
 
-构建的lib包里面有一个manifest文件，所需要添加的权限请参照那个文件.
+`构建的lib包里面有一个manifest文件，所需要添加的权限以及相关组件配置请参照那个文件（如果权限没有配置完毕 则可能导致某些功能崩溃）.`
 
 ####2.添加xFace的启动代码
-第三方程序启动xface可以分为两种，一种是无优化的启动和优化启动，优化启动优化了xface启动的速度，这样启动xface的速度更快。
-#####(1)无优化启动
+第三方程序启动xface可以分为两种，一种是普通模式的启动和优化模式启动，优化模式缓存了xFace的activity，这样首次启动xFace之后，再次启动，速度更快，但是第三方集成相对复杂。
+#####(1)启动接口
+    `XFaceLibLauncher.startXface(Activity srcActivity, Class targetClassName, String params,boolean isOptimization);`
+上述代码中,srcActivity为启动xFace的activity对象， targetClassName为需要启动xFaceLib的ativity名称(如果第三方没有重载XFaceLibActivity, 默认为XFaceLibActivity·class)，params表示需要向xface传递的参数（该参数会被应用接收，请参照xFace SDK文档）,如果不传参数则传null。
+
+#####(2)普通模式启动
 在第三方程序中，启动xface添加如下代码:
     `String params = "params";`
-    `XFaceLibLauncher.startXface(activity, params,false);`
-上述代码中params代表需要向xface传递的参数,如果不传参数则传null。
+    `XFaceLibLauncher.startXface(Activity srcActivity, XFaceLibActivity.class,params,false);`
 
-#####(2)优化启动
+#####(3)优化启动
 在第三方程序中,启动xface添加如下代码:
     `String params = "params";`
-    `XFaceLibLauncher.startXface(activity, params,true);`
-如果打开优化还需要在退出第三方程序的时候，在关闭第三方程序之前来关闭xface:
+    `XFaceLibLauncher.startXface(srcActivity, targetClassName, params,true);`
+如果打开优化还需要在退出第三方程序的时候关闭xface:
     `XFaceLibLauncher.endXface();`
-这样就是一个完整的优化启动过程。在一般的程序中建议使用优化启动来启动xface，这样对于效率有很大的提高.
+.
 
 **注意**
  如果需要在第三方程序中监听xface退出的回调可以添加以下代码:
     `@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == XFaceLibActivity.RESULT_OK) {
-			// TODO:监听xface退出后需要执行的操作
-		}
-	}`
-在if中就可以添加xface退出后需要做的事情。
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == XFaceLibActivity.RESULT_OK) {
+            // TODO:监听xface退出后需要执行的操作
+        }
+    }`
