@@ -64,14 +64,14 @@
     <!-- package libs -->
     <target name="package">
         <!-- copy libproject lib -->
-        <copy todir="${basedir}/bin/xfaceSdk/libs/">
+        <copy todir="${basedir}/bin/xfaceSdk/libs/" overwrite="true">
           <fileset dir="${lib.framework}/libs" id="framework_libs">
             <include name="*.jar" />
             <include name="armeabi/*.so" />
           </fileset>
         </copy>
 
-        <copy todir="${basedir}/bin/xfaceSdk/libs/">
+        <copy todir="${basedir}/bin/xfaceSdk/libs/" overwrite="true">
            <fileset dir="${basedir}/libs" id="libs">
             <include name="*.jar" />
             <include name="armeabi/*.so" />
@@ -79,42 +79,44 @@
         </copy>
 
        <!-- using this to tell user the permission -->
-        <copy todir="${basedir}/bin/xfaceSdk"  file="${basedir}/AndroidManifest.xml"/>
+        <copy todir="${basedir}/bin/xfaceSdk"  file="${basedir}/AndroidManifest.xml" overwrite="true"/>
 
         <!-- copy res-->
-        <copy todir="${basedir}/bin/xfaceSdk/res">
+        <copy todir="${basedir}/bin/xfaceSdk/res" overwrite="true">
              <fileset dir="${lib.framework}/res" id="res">
                 <exclude name="drawable*/icon.png"/>
+                <exclude name="layout*/main.xml" />
             </fileset>
             <fileset dir="${basedir}/res" id="res">
                 <exclude name="drawable*/icon.png"/>
+                <exclude name="layout*/main.xml" />
             </fileset>
         </copy>
 
         <!-- copy assets -->
-        <copy todir="${basedir}/bin/xfaceSdk/assets">
+        <copy todir="${basedir}/bin/xfaceSdk/assets" overwrite="true">
             <fileset dir="${basedir}/assets" id="assets"/>
         </copy>
 
         <!-- copy demo and doc-->
-        <copy todir="${basedir}/bin/xfaceSdk/">
+        <copy todir="${basedir}/bin/xfaceSdk/" overwrite="true">
             <fileset dir="${basedir}/xfaceSdk/"/>
         </copy>
 
         <!-- update  demo assets files-->
         <delete includeEmptyDirs="true" dir="${basedir}/bin/xfaceSdk/demo/assets/"/>
-        <copy todir="${basedir}/bin/xfaceSdk/demo/assets">
+        <copy todir="${basedir}/bin/xfaceSdk/demo/assets" overwrite="true">
             <fileset dir="${basedir}/bin/xfaceSdk/assets"/>
         </copy>
 
         <!-- update demo libs-->
         <delete includeEmptyDirs="true" dir="${basedir}/bin/xfaceSdk/demo/libs/"/>
-        <copy todir="${basedir}/bin/xfaceSdk/demo/libs">
+        <copy todir="${basedir}/bin/xfaceSdk/demo/libs" overwrite="true">
             <fileset dir="${basedir}/bin/xfaceSdk/libs"/>
         </copy>
        
         <!-- update res -->
-        <copy todir="${basedir}/bin/xfaceSdk/demo/res">
+        <copy todir="${basedir}/bin/xfaceSdk/demo/res" overwrite="true">
             <fileset dir="${basedir}/bin/xfaceSdk/res"/>
         </copy>
 
