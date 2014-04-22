@@ -83,10 +83,10 @@
 
         <!-- copy res-->
         <copy todir="${basedir}/bin/xfaceSdk/res">
-            <fileset dir="${basedir}/res" id="res">
+             <fileset dir="${lib.framework}/res" id="res">
                 <exclude name="drawable*/icon.png"/>
             </fileset>
-             <fileset dir="${lib.framework}/res" id="res">
+            <fileset dir="${basedir}/res" id="res">
                 <exclude name="drawable*/icon.png"/>
             </fileset>
         </copy>

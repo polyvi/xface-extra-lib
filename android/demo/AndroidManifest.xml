@@ -26,7 +26,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.polyvi.xface.extension.zbar.XCameraActivity" />
         <activity
             android:name="com.polyvi.xface.lib.XFaceLibActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale"
