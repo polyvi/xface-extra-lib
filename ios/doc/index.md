@@ -61,6 +61,20 @@ xFace resource包括xFace启动时使用的launchImages、配置文件（config.
 
 ![](image/other_linker_flags.png)
 
+**注意**
+
+如果执行完上述操作后，工程仍然存在链接错误，则可以尝试添加如下代码到工程配置 TARGETS->demo->Build Settings->Other Linker Flags（其中的framework可以酌情删减），
+
+   ```
+-weak_framework CoreFoundation -weak_framework UIKit -weak_framework AVFoundation -weak_framework CoreMedia -ObjC
+   ```
+
+请参见下图：
+
+![](image/weak_linking_frameworks.png)
+
+
+
 ### 调用xFace
 
 请参考ViewConroller.m 中的代码
