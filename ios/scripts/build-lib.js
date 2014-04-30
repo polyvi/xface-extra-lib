@@ -35,9 +35,11 @@ modifyFileRefence(pbx, target.productUuid);
 modifyProductsGroup(pbx, target.productUuid);
 modifyBuildConfiguration(pbx);
 
-var pluginLibs = findPluginLibrary(path.join(projectMainDir, 'Plugins'));
+var pluginLibs = findPluginLibrary(path.join(projectMainDir, 'Plugins')); // absolate path
+// remove static library reference from project, except custom framework
+// if not, static library will be packed into the final lib, but framework will not
 pluginLibs.forEach(function(lib) {
-    pbx.removeFramework(lib, {customeFramework: true});
+    path.extname(lib.toLowerCase()) == '.a' && pbx.removeFramework(lib, {customeFramework: true});
 });
 removeEntrySourceFile(pbx);
 
@@ -106,7 +108,7 @@ function prepareArchiveSource(pbx) {
     console.log('Copy all static libraries...');
     shell.cp('-f', path.join(platformProjPath, 'build', buildCategoryName, 'libxFaceLibAll.a'), libFolder);
     pluginLibs.forEach(function(lib) {
-        shell.cp('-f', lib, libFolder);
+        shell.cp('-rf', lib, libFolder);
     });
 
     console.log('Copy header files....');
@@ -127,9 +129,10 @@ function prepareArchiveSource(pbx) {
     // copy config.xml
     shell.cp('-f', path.join(projectMainDir, 'config.xml'), libFolder);
 
-    // write framework requirement to readme
-    var frameworks = collectFrameworks(pbx),
-        content = '\nFramework Requirement: \n';
+    // TODO: 写入framework时，加上weak信息
+    // write system framework requirement to readme
+    var frameworks = collectSystemFrameworks(pbx),
+        content = '\nSystem Framework Requirement: \n';
     frameworks.forEach(function(framework) {
         content += ('    ' + framework + '\n');
     });
@@ -224,11 +227,16 @@ function findPluginLibrary(dir) {
     }
     var libs = [];
     fs.readdirSync(dir).forEach(function(f) {
-        var subPath = path.join(dir, f);
+        var ext = path.extname(f).toLowerCase(),
+            subPath = path.join(dir, f);
         if(fs.lstatSync(subPath).isDirectory()) {
-            libs = libs.concat(findPluginLibrary(subPath));
+            if(ext === '.framework') {
+                libs.push(subPath);
+            } else {
+                libs = libs.concat(findPluginLibrary(subPath));
+            }
         } else {
-            if(path.extname(f).toLowerCase() == '.a') {
+            if(ext === '.a') {
                 libs.push(subPath);
             }
         }
@@ -254,13 +262,19 @@ function removeFromGroup(pbx, file, group) {
     }
 }
 
-// collect all frameworks used by project, excluding static library
-function collectFrameworks(pbx) {
+// collect all system frameworks used by project, excluding static library
+function collectSystemFrameworks(pbx) {
     var children = pbx.pbxGroupByName('Frameworks').children;
     var frameworks = [];
+    var customFrameworks = pluginLibs.filter(function(p) {
+        return path.extname(p).toLowerCase() === '.framework';
+    });
+    customFrameworks = customFrameworks.map(function(p) {
+        return path.basename(p);
+    });
     children.forEach(function(child) {
         var name = child.comment;
-        if(path.extname(name) != '.a') {
+        if(path.extname(name) != '.a' && customFrameworks.indexOf(name) == -1) {
             frameworks.push(name);
         }
     });
