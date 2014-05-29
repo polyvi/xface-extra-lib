@@ -115,7 +115,7 @@ function prepareArchiveSource(pbx) {
     copyHeaderFiles(pbx, libFolder);
 
     console.log('Copy resource files....');
-    shell.cp('-rf', path.join(projectMainDir, 'Resources'), path.join(libFolder, 'Resources'));
+    shell.cp('-rf', path.join(projectMainDir, 'Resources'), libFolder);
     console.log('Copy demo and other files....');
 
     console.log('Copy application....');
@@ -128,6 +128,9 @@ function prepareArchiveSource(pbx) {
 
     // copy config.xml
     shell.cp('-f', path.join(projectMainDir, 'config.xml'), libFolder);
+
+    // generate merged xface.js
+    shell.exec('xmen build ios --merge-js -o "' + path.join(libFolder, 'xface.js') + '"');
 
     // TODO: 写入framework时，加上weak信息
     // write system framework requirement to readme
