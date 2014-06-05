@@ -85,8 +85,11 @@
         <copy todir="${basedir}/bin/xfaceSdk/res" overwrite="true">
              <fileset dir="${lib.framework}/res" id="res">
                 <exclude name="drawable*/icon.png"/>
-                <exclude name="layout*/main.xml" />
+                <exclude name="layout*/main.xml"/>
             </fileset>
+        </copy>
+
+        <copy todir="${basedir}/bin/xfaceSdk/res" overwrite="true">
             <fileset dir="${basedir}/res" id="res">
                 <exclude name="drawable*/icon.png"/>
                 <exclude name="layout*/main.xml" />
@@ -114,8 +117,8 @@
         <copy todir="${basedir}/bin/xfaceSdk/demo/libs" overwrite="true">
             <fileset dir="${basedir}/bin/xfaceSdk/libs"/>
         </copy>
-       
-        <!-- update res -->
+
+        <!-- update res for demo -->
         <copy todir="${basedir}/bin/xfaceSdk/demo/res" overwrite="true">
             <fileset dir="${basedir}/bin/xfaceSdk/res"/>
         </copy>
